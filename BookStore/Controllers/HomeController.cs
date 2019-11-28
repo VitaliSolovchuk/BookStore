@@ -15,6 +15,21 @@ namespace BookStore.Controllers
             return View(iBooksContext);
         }
 
+        [HttpGet]
+        public ActionResult Buy(int id)
+        {
+            ViewBag.BookId = id;
+            return View();
+        }
+
+        [HttpPost]
+        public string Buy(Purchase purchase)
+        {
+            purchase.Date = DateTime.Now;
+            WorkWithBbAdd(purchase);
+
+            return "спасибо за покупку ^_^";
+        }
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -27,6 +42,12 @@ namespace BookStore.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        private void WorkWithBbAdd(Purchase purchase)
+        {
+            db.Purchases.Add(purchase);
+            db.SaveChanges();
         }
     }
 }
